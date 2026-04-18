@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patzinia | Portal Cinta & Penyesalan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rose-600: #e11d48;
+            --rose-400: #fb7185;
+            --theme-color: 225, 29, 72;
+            --transition-speed: 1.5s;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            scroll-behavior: smooth;
+            background: #0f172a; 
+            color: #f8fafc;
+            overflow-x: hidden;
+            transition: background var(--transition-speed) ease;
+        }
+
+        @media (max-width: 768px) {
+            body { cursor: auto; }
+            #custom-cursor, .cursor-dot { display: none; }
+        }
+
+        .font-romance { font-family: 'Dancing Script', cursive; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .font-montserrat { font-family: 'Montserrat', sans-serif; }
+
+        /* Custom Cursor */
+        #custom-cursor {
+            width: 25px;
+            height: 25px;
+            border: 2px solid rgba(var(--theme-color), 0.5);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease, border-color var(--transition-speed) ease;
+        }
+
+        .cursor-dot {
+            width: 5px;
+            height: 5px;
+            background: white;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+        }
+
+        /* Background Effects */
+        .magic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(var(--theme-color), 0.2) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(251, 146, 60, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 1) 0%, rgba(30, 41, 59, 1) 100%);
+            transition: all var(--transition-speed) ease;
+        }
+
+        body.galaxy-mode .magic-bg {
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(147, 51, 234, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 50% 40%, rgba(236, 72, 153, 0.3) 0%, transparent 60%),
+                #020617;
+        }
+
+        #mood-bloom {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 60;
+            opacity: 0;
+            background: radial-gradient(circle, rgba(var(--theme-color), 0.4) 0%, transparent 70%);
+            transition: opacity 0.8s ease;
+        }
+
+        .glass-luxury {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card-3d {
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            transform-style: preserve-3d;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 20px rgba(var(--theme-color), 0.6);
+        }
+
+        /* Envelope Styles */
+        .envelope-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            margin: 50px auto;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .envelope {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            background: #fdfdfd;
+            border-radius: 5px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.5s ease;
+        }
+
+        .envelope:before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 0; height: 0;
+            border-left: 225px solid transparent;
+            border-right: 225px solid transparent;
+            border-top: 140px solid #ececec;
+            z-index: 4;
+            transform-origin: top;
+            transition: transform 0.6s 0.4s ease;
+        }
+
+        @media (max-width: 480px) {
+            .envelope:before {
+                border-left-width: 180px;
+                border-right-width: 180px;
+                border-top-width: 100px;
+            }
+        }
+
+        .envelope:after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 0;
+            border-left: 225px solid #f9f9f9;
+            border-right: 225px solid #f9f9f9;
+            border-top: 140px solid transparent;
+            border-bottom: 140px solid #f9f9f9;
+            z-index: 3;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 480px) {
+            .envelope:after {
+                border-left-width: 180px;
+                border-right-width: 180px;
+                border-top-width: 100px;
+                border-bottom-width: 100px;
+            }
+            .envelope { height: 200px; }
+        }
+
+        .envelope.open:before {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .letter-paper {
+            position: absolute;
+            bottom: 5px;
+            width: 90%;
+            height: 90%;
+            background: #fffef0;
+            background-image: linear-gradient(#e1e1e1 1px, transparent 1px);
+            background-size: 100% 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            z-index: 2;
+            transition: all 0.8s 0.8s ease;
+            padding: 40px 30px;
+            overflow-y: auto;
+            border: 1px solid #f1f1f1;
+            transform: translateY(0);
+        }
+
+        .envelope.open .letter-paper {
+            transform: translateY(-120%);
+            height: 600px;
+            width: 100%;
+            max-width: 800px;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            z-index: 100;
+            box-shadow: 0 0 100px rgba(0,0,0,0.5);
+            border-radius: 5px;
+        }
+
+        .letter-paper::-webkit-scrollbar { width: 5px; }
+        .letter-paper::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 10px; }
+
+        .paper-content {
+            color: #333;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            text-align: left;
+        }
+
+        .close-letter {
+            position: absolute;
+            top: 10px; right: 20px;
+            font-size: 24px;
+            color: #999;
+            display: none;
+        }
+        .envelope.open .close-letter { display: block; }
+
+        /* Vows Card */
+        .oath-card {
+            border-left: 4px solid rgb(var(--theme-color));
+            background: rgba(255, 255, 255, 0.05);
+            transition: all 0.4s ease, border-color var(--transition-speed) ease;
+            height: 100%;
+        }
+
+        .petal {
+            transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: center bottom;
+            opacity: 0;
+            transform: scale(0);
+        }
+        .flower-bloomed .petal { opacity: 1; transform: scale(1) rotate(var(--rotate)); }
+
+        .hug-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(var(--theme-color), 0.3);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        .hug-overlay.active { opacity: 1; pointer-events: all; }
+
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(to right, rgb(var(--theme-color)), #fb923c);
+            z-index: 100;
+            width: 0%;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: twinkle var(--duration) infinite ease-in-out;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .mission-card {
+            width: 100%;
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .mission-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+        .mission-card.flipped .mission-card-inner { transform: rotateY(180deg); }
+        .mission-card-front, .mission-card-back {
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+            display: flex; align-items: center; justify-content: center; border-radius: 20px; padding: 20px;
+        }
+        .mission-card-front { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .mission-card-back { background: rgba(var(--theme-color), 0.15); border: 1px solid rgba(var(--theme-color), 0.4); transform: rotateY(180deg); }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="custom-cursor"></div>
+    <div class="cursor-dot"></div>
+    <div id="progress-bar"></div>
+    <div id="mood-bloom"></div>
+    <div class="magic-bg"></div>
+    <div id="stars-container" class="fixed inset-0 pointer-events-none z-[-1]"></div>
+    <div id="animationContainer" class="fixed inset-0 pointer-events-none z-50"></div>
+    
+    <!-- Hug Overlay -->
+    <div id="hugOverlay" class="hug-overlay" onclick="closeHug()">
+        <div class="text-center p-6">
+            <div class="text-9xl mb-6 animate-bounce">🫂</div>
+            <h2 class="font-romance text-5xl md:text-7xl text-white glow-text italic">Pelukan Hangat untuk Verzinia...</h2>
+            <p class="text-white/80 mt-4 font-light italic text-lg">Aku selalu ada di sampingmu, Ver.</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 h-20 md:h-24 flex items-center transition-all duration-700 px-4 md:px-12">
+        <div class="max-w-7xl mx-auto w-full flex items-center justify-between glass-luxury px-6 md:px-8 py-3 md:py-4 rounded-full border border-white/10 shadow-2xl">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center shadow-lg transition-colors duration-1000" id="nav-dot" style="background-color: rgb(var(--theme-color));">
+                    <span class="text-white text-xs font-bold">P</span>
+                </div>
+                <span class="font-montserrat font-bold tracking-[0.3em] text-[10px] md:text-xs text-white uppercase italic">PATZINIA<span id="nav-dot-text" style="color: rgb(var(--theme-color));">.</span></span>
+            </div>
+            
+            <div class="hidden lg:flex gap-10 text-[9px] font-bold uppercase tracking-[0.3em] text-slate-400">
+                <a href="#home" class="nav-link relative hover:text-white transition-colors">Utama</a>
+                <a href="#sweet-missions" class="nav-link relative hover:text-white transition-colors">Misi</a>
+                <a href="#smile-box" class="nav-link relative hover:text-white transition-colors">Senyuman</a>
+                <a href="#vows" class="nav-link relative hover:text-white transition-colors text-rose-400 font-bold">Janji Suci</a>
+                <a href="#letter" class="nav-link relative hover:text-white transition-colors italic">Surat</a>
+            </div>
+
+            <button onclick="toggleMobileMenu()" class="lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 focus:outline-none z-50">
+                <span id="h-line-1" class="w-6 h-0.5 bg-white transition-all"></span>
+                <span id="h-line-2" class="w-6 h-0.5 bg-white transition-all"></span>
+                <span id="h-line-3" class="w-6 h-0.5 bg-white transition-all"></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-slate-950/98 backdrop-blur-2xl flex flex-col items-center justify-center lg:hidden text-white">
+        <div class="flex flex-col gap-10 text-center">
+            <a href="#home" onclick="toggleMobileMenu()" class="text-2xl font-serif italic">Utama</a>
+            <a href="#sweet-missions" onclick="toggleMobileMenu()" class="text-2xl font-serif italic">Misi Manis</a>
+            <a href="#smile-box" onclick="toggleMobileMenu()" class="text-2xl font-serif italic">Bikin Senyum</a>
+            <a href="#vows" onclick="toggleMobileMenu()" class="text-2xl font-serif italic text-rose-400 font-bold">Janji Patrik</a>
+            <a href="#letter" onclick="toggleMobileMenu()" class="text-2xl font-serif italic">Surat Buatmu</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen flex flex-col items-center justify-center pt-32 pb-20">
+        <div class="max-w-7xl mx-auto px-6 w-full fade-up">
+            <div class="text-center mb-16">
+                <h1 class="font-serif text-5xl md:text-8xl mb-4 font-bold text-white leading-tight">
+                    Patzinia <span class="font-romance italic glow-text lowercase" id="theme-text" style="color: rgb(var(--theme-color));">Portal.</span>
+                </h1>
+                <p class="text-slate-400 text-sm md:text-lg italic font-light max-w-md mx-auto">Ruang pribadi untuk merajut kembali kebahagiaan Verzinia.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-20">
+                <div class="glass-luxury p-8 rounded-[2rem] border-t border-rose-500/20 card-3d">
+                    <p class="text-[9px] uppercase tracking-widest font-bold mb-4" style="color: rgb(var(--theme-color));">Mencintaimu Sejak:</p>
+                    <p id="loveTimer" class="text-xl md:text-2xl font-bold font-serif italic text-white mb-2 tracking-tighter">Memuat...</p>
+                    <p class="text-slate-500 text-[10px] italic">Waktu yang selalu aku syukuri.</p>
+                </div>
+
+                <div class="glass-luxury p-8 rounded-[2rem] border-t border-blue-400/20 card-3d">
+                    <p class="text-[9px] uppercase tracking-widest font-bold mb-4 text-blue-400">Mood Dashboard</p>
+                    <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+                        <button onclick="changeMood('rose')" class="w-10 h-10 rounded-full bg-rose-600 border-2 border-white/20 hover:scale-125 transition-all shadow-lg hover:shadow-rose-600/50"></button>
+                        <button onclick="changeMood('blue')" class="w-10 h-10 rounded-full bg-blue-600 border-2 border-white/20 hover:scale-125 transition-all shadow-lg hover:shadow-blue-600/50"></button>
+                        <button onclick="changeMood('gold')" class="w-10 h-10 rounded-full bg-amber-500 border-2 border-white/20 hover:scale-125 transition-all shadow-lg hover:shadow-amber-500/50"></button>
+                        <button onclick="changeMood('galaxy')" class="w-10 h-10 rounded-full bg-indigo-900 border-2 border-white/40 hover:scale-125 transition-all shadow-lg hover:shadow-indigo-500/50 flex items-center justify-center">🌌</button>
+                    </div>
+                    <p class="text-slate-500 text-[10px] mt-6 italic">Pilih aura website sesuai hatimu, Ver.</p>
+                </div>
+
+                <div class="glass-luxury p-8 rounded-[2rem] border-t border-amber-400/20 card-3d text-center">
+                    <p class="text-[9px] uppercase tracking-widest text-amber-400 font-bold mb-4 italic">Bunga Harapan</p>
+                    <div id="flower-pot" onclick="bloomFlower()" class="text-5xl mb-2 relative inline-block">🪴
+                        <div id="digital-flower" class="absolute -top-10 left-1/2 -translate-x-1/2 w-20 h-20 pointer-events-none">
+                            <span class="petal absolute inset-0 text-3xl" style="--rotate: 0deg">🌸</span>
+                            <span class="petal absolute inset-0 text-3xl" style="--rotate: 90deg">🌸</span>
+                            <span class="petal absolute inset-0 text-3xl" style="--rotate: 180deg">🌸</span>
+                            <span class="petal absolute inset-0 text-3xl" style="--rotate: 270deg">🌸</span>
+                        </div>
+                    </div>
+                    <p id="flower-status" class="text-white text-[10px] font-bold italic">Ketuk pot untuk mekar</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SWEET MISSIONS -->
+    <section id="sweet-missions" class="py-20 md:py-32 px-6 bg-slate-900/40">
+        <div class="max-w-6xl mx-auto text-center">
+            <div class="reveal mb-16">
+                <h6 class="text-rose-500 font-bold uppercase tracking-[0.4em] text-[10px] mb-4 italic" style="color: rgb(var(--theme-color));">The Pamper Zone</h6>
+                <h2 class="font-serif text-3xl md:text-5xl text-white italic">Misi Manis <span class="font-romance lowercase" style="color: rgb(var(--theme-color));">Untukmu.</span></h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 reveal">
+                <div class="mission-card" onclick="this.classList.toggle('flipped')"><div class="mission-card-inner"><div class="mission-card-front"><span class="text-5xl">🌙</span></div><div class="mission-card-back flex flex-col"><h4 class="text-white font-bold italic mb-2">Midnight Walk</h4><p class="text-xs">Ajak jalan-jalan santai sambil cari udara segar.</p></div></div></div>
+                <div class="mission-card" onclick="this.classList.toggle('flipped')"><div class="mission-card-inner"><div class="mission-card-front"><span class="text-5xl">🍳</span></div><div class="mission-card-back flex flex-col"><h4 class="text-white font-bold italic mb-2">Personal Chef</h4><p class="text-xs">Masakin makanan favoritmu atau antar ke rumah.</p></div></div></div>
+                <div class="mission-card" onclick="this.classList.toggle('flipped')"><div class="mission-card-inner"><div class="mission-card-front"><span class="text-5xl">🎬</span></div><div class="mission-card-back flex flex-col"><h4 class="text-white font-bold italic mb-2">Movie Night</h4><p class="text-xs">Nonton film pilihanmu tanpa protes!</p></div></div></div>
+                <div class="mission-card" onclick="this.classList.toggle('flipped')"><div class="mission-card-inner"><div class="mission-card-front"><span class="text-5xl">🍦</span></div><div class="mission-card-back flex flex-col"><h4 class="text-white font-bold italic mb-2">Mood Booster</h4><p class="text-xs">Kirim jajanan wishlist-mu sekarang juga!</p></div></div></div>
+                <div class="mission-card" onclick="this.classList.toggle('flipped')"><div class="mission-card-inner"><div class="mission-card-front"><span class="text-5xl">🎶</span></div><div class="mission-card-back flex flex-col"><h4 class="text-white font-bold italic mb-2">Sing for You</h4><p class="text-xs">Voice note lagu apapun yang kamu minta.</p></div></div></div>
+                <div class="mission-card" onclick="this.classList.toggle('flipped')"><div class="mission-card-inner"><div class="mission-card-front"><span class="text-5xl">👑</span></div><div class="mission-card-back flex flex-col"><h4 class="text-white font-bold italic mb-2">Queen's Command</h4><p class="text-xs">Satu perintah bebas darimu, aku turuti.</p></div></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SMILE BOX & GACHA -->
+    <section id="smile-box" class="py-20 md:py-32 px-6">
+        <div class="max-w-6xl mx-auto text-center">
+            <div class="reveal mb-16">
+                <h2 class="font-serif text-3xl md:text-5xl text-white italic">Kotak Senyum <span class="font-romance lowercase" style="color: rgb(var(--theme-color));">Verzinia.</span></h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 reveal">
+                <div class="smile-box p-8 md:p-10 flex flex-col items-center">
+                    <div class="text-4xl mb-6">💖</div>
+                    <h3 class="text-white font-bold mb-4 uppercase text-xs tracking-widest">Kenapa Aku Sayang?</h3>
+                    <p id="reasonDisplay" class="text-slate-400 text-sm italic min-h-[60px] mb-6 font-light">"Ketuk untuk rahasia hati..."</p>
+                    <button onclick="generateReason()" class="mt-auto px-6 py-3 bg-white/5 border border-white/10 rounded-full text-[10px] font-bold text-white uppercase hover:bg-rose-500 transition-all">Lihat</button>
+                </div>
+                <div class="smile-box p-8 md:p-10 flex flex-col items-center">
+                    <div class="text-4xl mb-6">🎰</div>
+                    <h3 class="text-white font-bold mb-4 uppercase text-xs tracking-widest">Love Gacha</h3>
+                    <div id="gachaResult" class="hidden mb-6 w-full"><div class="bg-rose-600/20 p-4 rounded-xl border border-rose-500"><p id="gachaText" class="font-bold italic text-sm" style="color: rgb(var(--theme-color));"></p></div></div>
+                    <button onclick="playGacha()" class="mt-auto px-8 py-3 rounded-full text-[10px] font-bold text-white uppercase hover:scale-105 transition-all shadow-xl" style="background-color: rgb(var(--theme-color));">Tarik</button>
+                </div>
+                <div class="smile-box p-8 md:p-10 flex flex-col items-center">
+                    <div class="text-4xl mb-6">🫂</div>
+                    <h3 class="text-white font-bold mb-4 uppercase text-xs tracking-widest">Digital Hug</h3>
+                    <button onclick="sendHug()" class="mt-auto px-6 py-3 bg-white text-slate-900 rounded-full text-[10px] font-bold uppercase hover:bg-rose-100">Terima</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KOMITMEN (SUPER COMPREHENSIVE) -->
+    <section id="vows" class="py-24 md:py-40 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-24 reveal">
+                <h6 class="font-bold uppercase tracking-[0.4em] text-[10px] mb-4 italic" style="color: rgb(var(--theme-color));">The Eternal Vows</h6>
+                <h2 class="font-serif text-4xl md:text-6xl text-white italic mb-6">Manifesto Perubahan <span class="font-romance lowercase" style="color: rgb(var(--theme-color));">Patzinia.</span></h2>
+                <p class="text-slate-400 mt-6 font-light italic max-w-3xl mx-auto text-base">Ini adalah 12 pilar janji yang aku kunci di dalam hati. Bukan sekadar teks di layar, tapi panduan bagi caraku memperlakukanmu mulai detik ini.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 reveal">
+                <!-- Pilar 1 -->
+                <div class="oath-card p-10 rounded-[2.5rem] group card-3d">
+                    <div class="text-rose-500 mb-4 opacity-50 font-bold tracking-widest text-[10px]">PILAR 01</div>
+                    <h4 class="font-bold mb-4 italic text-xl" style="color: rgb(var(--theme-color));">Ego Di Atas Rasa</h4>
+                    <p class="text-slate-300 font-light text-sm italic leading-relaxed">Aku berjanji tidak akan membiarkan gengsi atau keinginan untuk merasa "menang" dalam perdebatan menghalangi caraku menghargai perasaanmu. Bahagiamu adalah prioritasku.</p>
+                </div>
+                <!-- Pilar 2 -->
+                <div class="oath-card p-10 rounded-[2.5rem] group card-3d">
+                    <div class="text-rose-500 mb-4 opacity-50 font-bold tracking-widest text-[10px]">PILAR 02</div>
+                    <h4 class="font-bold mb-4 italic text-xl" style="color: rgb(var(--theme-color));">Komunikasi Terbuka</h4>
+                    <p class="text-slate-300 font-light text-sm italic leading-relaxed">Tidak akan ada lagi "Silent Treatment" atau mendiamkanmu tanpa kabar. Seberat apa pun masalahnya, aku akan tetap bicara padamu dengan tenang sampai selesai.</p>
+                </div>
+                <!-- Pilar 3 -->
+                <div class="oath-card p-10 rounded-[2.5rem] group card-3d">
+                    <div class="text-rose-500 mb-4 opacity-50 font-bold tracking-widest text-[10px]">PILAR 03</div>
+                    <h4 class="font-bold mb-4 italic text-xl" style="color: rgb(var(--theme-color));">Kelembutan Lisan</h4>
+                    <p class="text-slate-300 font-light text-sm italic leading-relaxed">Berjanji untuk selalu menjaga nada bicara dan pilihan kata. Tidak akan ada lagi suara tinggi atau kata-kata tajam yang merobek kelembutan jiwamu.</p>
+                </div>
+                <!-- Pilar 4 -->
+                <div class="oath-card p-10 rounded-[2.5rem] group card-3d">
+                    <div class="text-rose-500 mb-4 opacity-50 font-bold tracking-widest text-[10px]">PILAR 04</div>
+                    <h4 class="font-bold mb-4 italic text-xl" style="color: rgb(var(--theme-color));">Kejujuran Sebening Kaca</h4>
+                    <p class="text-slate-300 font-light text-sm italic leading-relaxed">Transparansi mutlak. Tidak ada lagi rahasia atau hal-hal kecil yang sengaja kusembunyikan. Aku ingin duniaku terbuka lebar dan jujur sepenuhnya di matamu.</p>
+                </div>
+                <!-- Pilar 5 -->
+                <div class="oath-card p-10 rounded-[2.5rem] group card-3d">
+                    <div class="text-rose-500 mb-4 opacity-50 font-bold tracking-widest text-[10px]">PILAR 05</div>
+                    <h4 class="font-bold mb-4 italic text-xl" style="color: rgb(var(--theme-color));">Kehadiran Hati</h4>
+                    <p class="text-slate-300 font-light text-sm italic leading-relaxed">Saat kita sedang bersama, fokusku hanya padamu. Aku berjanji untuk meletakkan gadget dan benar-benar hadir untuk mendengarkan ceritamu dengan sepenuh hati.</p>
+                </div>
+                <!-- Pilar 6 -->
+                <div class="oath-card p-10 rounded-[2.5rem] group card-3d">
+                    <div class="text-rose-500 mb-4 opacity-50 font-bold tracking-widest text-[10px]">PILAR 06</div>
+                    <h4 class="font-bold mb-4 italic text-xl" style="color: rgb(var(--theme-color));">Peka Terhadap Resah</h4>
+                    <p class="text-slate-300 font-light text-sm italic leading-relaxed">Aku akan belajar menjadi pendengar yang lebih peka. Setiap kekhawatiranmu, sekecil apa pun itu, tidak akan pernah kusepelekan lagi karena rasa amanmu adalah tanggung jawabku.</p>
+                </div>
+                <!-- Pilar 7 -->
+                <div class="oath-card p-10 rounded-[2.5rem] group card-3d">
+                    <div class="text-rose-500 mb-4 opacity-50 font-bold tracking-widest text-[10px]">PILAR 07</div>
+                    <h4 class="font-bold mb-4 italic text-xl" style="color: rgb(var(--theme-color));">Menghargai Batasan</h4>
+                    <p class="text-slate-300 font-light text-sm italic leading-relaxed">Aku akan selalu menghargai ruang pribadimu dan setiap kata 'tidak' yang kamu ucapkan. Menghormati batasanmu adalah caraku mencintaimu sebagai individu yang utuh.</p>
+                </div>
+                <!-- Pilar 8 -->
+                <div class="oath-card p-10 rounded-[2.5rem] group card-3d">
+                    <div class="text-rose-500 mb-4 opacity-50 font-bold tracking-widest text-[10px]">PILAR 08</div>
+                    <h4 class="font-bold mb-4 italic text-xl" style="color: rgb(var(--theme-color));">Konsistensi Berbenah</h4>
+                    <p class="text-slate-300 font-light text-sm italic leading-relaxed">Janji ini bukan hanya untuk hari ini. Aku berjanji untuk tidak pernah berhenti belajar menjadi pria yang lebih dewasa, lebih sabar, dan lebih baik setiap harinya untukmu.</p>
+                </div>
+                <!-- Pilar 9 -->
+                <div class="oath-card p-10 rounded-[2.5rem] group card-3d">
+                    <div class="text-rose-500 mb-4 opacity-50 font-bold tracking-widest text-[10px]">PILAR 09</div>
+                    <h4 class="font-bold mb-4 italic text-xl" style="color: rgb(var(--theme-color));">Syukur Tanpa Henti</h4>
+                    <p class="text-slate-300 font-light text-sm italic leading-relaxed">Aku berjanji tidak akan pernah membiarkan satu hari pun berlalu tanpa membuatmu merasa dicintai. Aku akan selalu mensyukuri keberadaanmu di dalam hidupku.</p>
+                </div>
+                <!-- Pilar 10 -->
+                <div class="oath-card p-10 rounded-[2.5rem] group card-3d">
+                    <div class="text-rose-500 mb-4 opacity-50 font-bold tracking-widest text-[10px]">PILAR 10</div>
+                    <h4 class="font-bold mb-4 italic text-xl" style="color: rgb(var(--theme-color));">Pelindung Senyummu</h4>
+                    <p class="text-slate-300 font-light text-sm italic leading-relaxed">Aku berjanji akan menjadi orang pertama yang menghapus air matamu dan orang terakhir yang membiarkanmu merasa sedih sendirian. Senyummu adalah duniaku.</p>
+                </div>
+                <!-- Pilar 11 -->
+                <div class="oath-card p-10 rounded-[2.5rem] group card-3d">
+                    <div class="text-rose-500 mb-4 opacity-50 font-bold tracking-widest text-[10px]">PILAR 11</div>
+                    <h4 class="font-bold mb-4 italic text-xl" style="color: rgb(var(--theme-color));">Pendukung Terbesarmu</h4>
+                    <p class="text-slate-300 font-light text-sm italic leading-relaxed">Aku akan mendukung setiap mimpi, ambisi, dan keinginanmu. Aku tidak akan menjadi penghalang, melainkan sayap yang membantumu terbang lebih tinggi.</p>
+                </div>
+                <!-- Pilar 12 -->
+                <div class="oath-card p-10 rounded-[2.5rem] group card-3d">
+                    <div class="text-rose-500 mb-4 opacity-50 font-bold tracking-widest text-[10px]">PILAR 12</div>
+                    <h4 class="font-bold mb-4 italic text-xl" style="color: rgb(var(--theme-color));">Setia Sampai Akhir</h4>
+                    <p class="text-slate-300 font-light text-sm italic leading-relaxed">Aku berjanji untuk tetap di sini, di sampingmu, melewati setiap suka dan duka. Kesetiaanku adalah janji yang aku bawa sampai napas terakhirku.</p>
+                </div>
+            </div>
+            <div class="mt-20 text-center reveal">
+                <p class="font-romance text-5xl md:text-6xl italic" style="color: rgb(var(--theme-color));">"Saksi bisu dari setiap janji suci Patrik..."</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE LETTER (ENVELOPE) -->
+    <section id="letter" class="py-32 px-6 flex flex-col items-center">
+        <div class="max-w-4xl w-full text-center reveal">
+            <h6 class="font-bold uppercase tracking-[0.5em] text-[10px] mb-4" style="color: rgb(var(--theme-color));">Deepest Soul Acknowledgment</h6>
+            <h2 class="font-serif text-4xl md:text-6xl text-white italic mb-16">Ada Pesan <span class="font-romance lowercase" style="color: rgb(var(--theme-color));">Khusus Untukmu.</span></h2>
+            
+            <div class="envelope-container" id="envelope-wrapper" onclick="toggleEnvelope()">
+                <div class="envelope" id="main-envelope">
+                    <div class="letter-paper">
+                        <span class="close-letter">&times;</span>
+                        <div class="paper-content font-romance md:text-3xl text-xl">
+                            <p class="mb-6">Halo Verzinia Sayang,</p>
+                            <p class="mb-6">Aku nulis ini benar-benar dari dasar hati aku yang paling jujur. Akhir-akhir ini, duniaku rasanya hampa banget, Ver. Bukan karena nggak ada siapa-siapa, tapi karena aku tau aku baru saja melukai orang yang paling aku sayangi di dunia ini.</p>
+                            <p class="mb-6">Aku nyesel banget. Sumpah, nyeselnya itu terasa sesak di dada setiap kali aku ingat wajah sedih kamu atau saat aku bayangin kamu harus menahan tangis gara-gara sifat egois aku. Maafin aku ya, Ver. Maafin aku karena aku belum bisa jadi laki-laki yang dewasa, yang bisa ngertiin kamu tanpa kamu harus jelasin semuanya.</p>
+                            <p class="mb-10 text-rose-600 font-bold italic">"Kamu itu rumah buat aku. Kamu satu-satunya orang yang bikin aku ngerasa berharga di dunia yang berisik ini. Kehilangan senyum kamu adalah ketakutan terbesar dalam hidup aku."</p>
+                            <p class="mb-6">Aku kangen banget sama tawa kamu yang lepas, kangen sama manja kamu yang selalu bikin aku gemes, dan kangen cara kamu lihat aku dengan penuh kasih sayang. Aku nggak mau semua itu hilang hanya karena kebodohan dan keras kepalanya aku. Hidup tanpa arah kalau nggak ada kamu di samping aku buat bagi cerita.</p>
+                            <p class="mb-6">Website ini bukan sekadar kode, tapi ini adalah janji aku. Aku serius pengen berubah. Aku pengen jadi 'Patrik' yang bisa bikin kamu bangga, yang bisa jadi sandaran paling kokoh pas kamu lelah. Maukah kamu kasih aku satu kesempatan lagi buat perbaiki taman kita yang sempat layu ini? Aku janji bakal jaga kamu lebih baik dari siapapun.</p>
+                            <p class="mb-6">Jangan pergi ya, Sayang? Mari kita berjuang bareng lagi. Aku butuh kamu, aku sayang banget sama kamu, dan aku akan selalu mencintai kamu dengan cara yang lebih baik mulai detik ini. Terima kasih sudah sesabar itu ngadepin aku selama ini.</p>
+                            <p class="mt-16 text-right">Selamanya milikmu,</p>
+                            <p class="text-right text-5xl md:text-7xl" style="color: rgb(var(--theme-color));">Patrik</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-10 text-slate-500 italic text-sm animate-pulse" id="open-hint">Klik amplop di atas untuk membukanya...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-20 px-6 border-t border-white/5 text-center">
+        <div class="max-w-7xl mx-auto flex flex-col items-center">
+            <div class="font-montserrat font-bold text-xl md:text-2xl tracking-[0.5em] text-white mb-10 uppercase">PATZINIA<span style="color: rgb(var(--theme-color));">.</span></div>
+            <p class="text-[7px] md:text-[8px] text-slate-800 uppercase tracking-widest font-bold">&copy; 2024 Simfoni Patzinia. Khusus untuk Verzinia.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Envelope Interaction
+        function toggleEnvelope() {
+            const envelope = document.getElementById('main-envelope');
+            const hint = document.getElementById('open-hint');
+            const isOpening = !envelope.classList.contains('open');
+            
+            if (isOpening) {
+                envelope.classList.add('open');
+                hint.style.opacity = '0';
+                document.body.style.overflow = 'hidden';
+            } else {
+                envelope.classList.remove('open');
+                hint.style.opacity = '1';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Custom Cursor
+        const cursor = document.getElementById('custom-cursor');
+        const dot = document.querySelector('.cursor-dot');
+        document.addEventListener('mousemove', (e) => {
+            if (window.innerWidth > 768) {
+                cursor.style.left = e.clientX - 12 + 'px';
+                cursor.style.top = e.clientY - 12 + 'px';
+                dot.style.left = e.clientX - 2 + 'px';
+                dot.style.top = e.clientY - 2 + 'px';
+            }
+        });
+
+        // Mood Changer
+        function changeMood(mood) {
+            const root = document.documentElement;
+            const bloom = document.getElementById('mood-bloom');
+            const body = document.body;
+            const themes = { rose: '225, 29, 72', blue: '37, 99, 235', gold: '217, 119, 6', galaxy: '79, 70, 229' };
+            bloom.style.opacity = '1';
+            setTimeout(() => {
+                root.style.setProperty('--theme-color', themes[mood]);
+                document.getElementById('theme-text').style.color = `rgb(${themes[mood]})`;
+                document.getElementById('nav-dot').style.backgroundColor = `rgb(${themes[mood]})`;
+                document.getElementById('nav-dot-text').style.color = `rgb(${themes[mood]})`;
+                if (mood === 'galaxy') { body.classList.add('galaxy-mode'); initStars(); document.getElementById('stars-container').style.opacity = '1'; }
+                else { body.classList.remove('galaxy-mode'); document.getElementById('stars-container').style.opacity = '0'; }
+                for(let i=0; i<40; i++) setTimeout(() => createParticle(themes[mood]), i * 20);
+                setTimeout(() => { bloom.style.opacity = '0'; }, 800);
+            }, 100);
+        }
+
+        function initStars() {
+            const container = document.getElementById('stars-container');
+            container.innerHTML = '';
+            for(let i=0; i<150; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 2 + 1;
+                star.style.width = size + 'px'; star.style.height = size + 'px';
+                star.style.left = Math.random() * 100 + '%'; star.style.top = Math.random() * 100 + '%';
+                star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+                container.appendChild(star);
+            }
+        }
+
+        // Interactivity
+        const reasons = ["Senyumanmu.", "Kesabaranmu.", "Caramu mendukungku.", "Suaramu saat memanggilku.", "Kehangatan hatimu.", "Tatapan matamu.", "Ketulusanmu memaafkan.", "Sifat manjanya kamu."];
+        function generateReason() {
+            const d = document.getElementById('reasonDisplay');
+            d.style.opacity = '0';
+            setTimeout(() => { d.innerText = `"${reasons[Math.floor(Math.random() * reasons.length)]}"`; d.style.opacity = '1'; }, 300);
+        }
+
+        function playGacha() {
+            const res = document.getElementById('gachaResult');
+            const txt = document.getElementById('gachaText');
+            const items = ["Pelukan 1 Jam", "Seblak Gratis", "Bebas Marah 1 Hari", "Makan Malam Mewah", "Pijat Bahu 30 Menit", "VC Sampai Tidur", "Klaim Maaf Instan"];
+            res.classList.remove('hidden'); txt.innerText = items[Math.floor(Math.random() * items.length)];
+            for(let i=0; i<30; i++) setTimeout(createParticle, i * 40);
+        }
+
+        function sendHug() {
+            document.getElementById('hugOverlay').classList.add('active');
+            setTimeout(() => { document.getElementById('hugOverlay').classList.remove('active'); }, 5000);
+        }
+        function closeHug() { document.getElementById('hugOverlay').classList.remove('active'); }
+
+        let flowerBloomed = false;
+        function bloomFlower() {
+            if (!flowerBloomed) {
+                document.getElementById('digital-flower').classList.add('flower-bloomed');
+                document.getElementById('flower-status').innerText = "Cintaku Mekar!";
+                flowerBloomed = true;
+                for(let i=0; i<30; i++) setTimeout(createParticle, i * 40);
+            }
+        }
+
+        const start = new Date('2023-01-01T00:00:00');
+        setInterval(() => {
+            const diff = new Date() - start;
+            const d = Math.floor(diff / 864e5), h = Math.floor((diff % 864e5) / 36e5), m = Math.floor((diff % 36e5) / 6e4), s = Math.floor((diff % 6e4) / 1e3);
+            document.getElementById('loveTimer').innerText = `${d} Hari, ${h} Jam, ${m}m, ${s}s`;
+        }, 1e3);
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const open = menu.classList.toggle('active');
+            document.getElementById('h-line-1').style.transform = open ? "rotate(45deg) translate(5px, 5px)" : "none";
+            document.getElementById('h-line-2').style.opacity = open ? "0" : "1";
+            document.getElementById('h-line-3').style.transform = open ? "rotate(-45deg) translate(5px, -5px)" : "none";
+            document.body.style.overflow = open ? "hidden" : "auto";
+        }
+
+        window.addEventListener('scroll', () => {
+            document.querySelectorAll('.reveal').forEach(el => { if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add('active'); });
+            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
+        });
+
+        function createParticle(themeRgb = null) {
+            const p = document.createElement('div');
+            const items = ['✨', '🌸', '❤️', '💎', '⭐'];
+            p.innerHTML = items[Math.floor(Math.random() * items.length)];
+            p.style.position = 'absolute'; p.style.left = Math.random() * 100 + 'vw'; p.style.top = '-50px';
+            p.style.fontSize = Math.random() * 15 + 10 + 'px'; 
+            p.style.color = themeRgb ? `rgb(${themeRgb})` : 'white';
+            p.style.transition = `transform ${Math.random() * 5 + 5}s linear, opacity 3s`;
+            document.getElementById('animationContainer').appendChild(p);
+            setTimeout(() => { p.style.transform = `translateY(110vh) rotate(${Math.random() * 720}deg)`; }, 100);
+            setTimeout(() => p.remove(), 1e4);
+        }
+        setInterval(() => createParticle(), 2500);
+    </script>
+</body>
+</html>
